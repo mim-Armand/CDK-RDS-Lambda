@@ -1,6 +1,6 @@
-# Welcome to your CDK TypeScript project
+# Welcome to this CDK TypeScript project
 
-This is a blank project for CDK development with TypeScript.
+This creates and runs a Lambda function that will attempt to connect to the postgress RDS and populate it with sample data for testing purposes!
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
