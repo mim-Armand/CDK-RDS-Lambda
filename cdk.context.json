@@ -1,0 +1,64 @@
+{
+  "vpc-provider:account=409284538438:filter.vpc-id=vpc-0e368e71030937751:region=us-east-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-0e368e71030937751",
+    "vpcCidrBlock": "10.0.0.0/16",
+    "ownerAccountId": "409284538438",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "compute",
+        "type": "Private",
+        "subnets": [
+          {
+            "subnetId": "subnet-0504fa73896c578cf",
+            "cidr": "10.0.2.0/24",
+            "availabilityZone": "us-east-1a",
+            "routeTableId": "rtb-01f73977146c11136"
+          },
+          {
+            "subnetId": "subnet-03652c5b5735080f5",
+            "cidr": "10.0.3.0/24",
+            "availabilityZone": "us-east-1b",
+            "routeTableId": "rtb-0110eb448f140ecc7"
+          }
+        ]
+      },
+      {
+        "name": "rds",
+        "type": "Isolated",
+        "subnets": [
+          {
+            "subnetId": "subnet-010f35663ed446a10",
+            "cidr": "10.0.4.0/28",
+            "availabilityZone": "us-east-1a",
+            "routeTableId": "rtb-05da1b9d176518265"
+          },
+          {
+            "subnetId": "subnet-072fc4cde3285e302",
+            "cidr": "10.0.4.16/28",
+            "availabilityZone": "us-east-1b",
+            "routeTableId": "rtb-0498b7a9fa031a4c7"
+          }
+        ]
+      },
+      {
+        "name": "ingress",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-01da3ec0cd05a2148",
+            "cidr": "10.0.0.0/24",
+            "availabilityZone": "us-east-1a",
+            "routeTableId": "rtb-04c60ded72eff56e1"
+          },
+          {
+            "subnetId": "subnet-074ad5c851056451a",
+            "cidr": "10.0.1.0/24",
+            "availabilityZone": "us-east-1b",
+            "routeTableId": "rtb-0750009b136884d28"
+          }
+        ]
+      }
+    ]
+  }
+}
