@@ -17,11 +17,13 @@ export class RdsInitStackExample extends Stack {
         })
 
         const credsSecretName = 'rds-db-secrets';
+        const sgid = 'sg-0650075417a79a928'; //todo: update this to the actual value you can also obtain from the RDS stack outputs
+        const vpcId = 'vpc-04c1875db33b2f0c4'; //todo: update this to the actual value you can also obtain from the RDS stack outputs
 
         // const vpcId = cdk.Fn.importValue('AthenaVpcIdOutput'); // these ofcourse are not gonna work! :/
-        const vpc = Vpc.fromLookup(this, 'vpc', {vpcId: 'vpc-0e368e71030937751'});
+        const vpc = Vpc.fromLookup(this, 'vpc', {vpcId});
         // const sgid = cdk.Fn.importValue('dbSecurityGroupId-2');
-        const sg = SecurityGroup.fromSecurityGroupId(this, 'cdk-sg', 'sg-0b701337f473ad3b4');
+        const sg = SecurityGroup.fromSecurityGroupId(this, 'cdk-sg', sgid);
 
 
         const initializer = new CdkResourceInitializer(this, 'MyRdsInit', {

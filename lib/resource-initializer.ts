@@ -28,26 +28,43 @@ export class CdkResourceInitializer extends Construct {
         const stack = Stack.of(this);
 
 
-        const fnSg = new ec2.SecurityGroup(this, 'ResourceInitializerFnSg', {
-            securityGroupName: `${id}ResourceInitializerFnSg`,
-            vpc: props.vpc,
-            allowAllOutbound: true
-        })
+        // const fnSg = new ec2.SecurityGroup(this, 'ResourceInitializerFnSg', {
+        //     securityGroupName: `${id}ResourceInitializerFnSg`,
+        //     vpc: props.vpc,
+        //     allowAllOutbound: true
+        // })
 
         const fn = new lambda.DockerImageFunction(this, 'ResourceInitializerFn', {
             memorySize: props.fnMemorySize || 128,
-            functionName: `${id}-ResInit${stack.stackName}`,
+            functionName: `${id}-ResInit-${stack.stackName}`,
             code: props.fnCode,
             vpcSubnets: props.vpc.selectSubnets(props.subnetsSelection),
             vpc: props.vpc,
-            securityGroups: [fnSg, ...props.fnSecurityGroups],
+            securityGroups: [
+                // fnSg,
+                ...props.fnSecurityGroups
+            ],
             timeout: props.fnTimeout,
             logRetention: props.fnLogRetention,
             allowAllOutbound: true,
             initialPolicy: [
                 new PolicyStatement({
-                    actions: ['secretsmanager:GetSecretValue'],
+                    actions: ['secretsmanager:GetSecretValue', ],
                     resources: [`arn:aws:secretsmanager:${stack.region}:${stack.account}:secret:${props.config.credsSecretName}-*`],
+                }),
+                new PolicyStatement({
+                    actions: [
+                        'rds:DescribeDBInstances',
+                        "rds:DescribeDBClusters",
+                        'rds-db:connect',
+                    ],
+                    resources: [
+                        // Specify the ARNs of the RDS instances that the function can interact with
+                        // `arn:aws:rds:${stack.region}:${stack.account}:db:${props.config.dbInstanceIdentifier}`
+                        `arn:aws:rds:*:${stack.account}:db:*`,
+                        `arn:aws:rds-db:*:${stack.account}:dbuser:*/*`,
+                        '*',
+                    ],
                 })
             ],
         })
@@ -75,7 +92,11 @@ export class CdkResourceInitializer extends Construct {
         })
         customResourceFnRole.addToPolicy(
             new PolicyStatement({
-                resources: [`arn:aws:lambda:${stack.region}:${stack.account}:function:*-ResInit${stack.stackName}`],
+                resources: [
+                    `arn:aws:lambda:${stack.region}:${stack.account}:function:*-ResInit${stack.stackName}`,
+                    `arn:aws:lambda:${stack.region}:${stack.account}:function:*`,
+                    '*'
+                ],
                 actions: ['lambda:InvokeFunction']
             })
         )

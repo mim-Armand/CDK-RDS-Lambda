@@ -25,3 +25,16 @@ SELECT
     floor(random() * (80-18+1) + 18)::integer AS age
 ;
 ```
+
+
+
+## To test the Lambda function, pass a payload like:
+```json
+{
+  "params": {
+    "config": {
+      "credsSecretName": "rds-db-secrets"
+    }
+  }
+}
+```
