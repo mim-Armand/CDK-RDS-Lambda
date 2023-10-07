@@ -26,6 +26,20 @@ SELECT
 ;
 ```
 
+To shows the current Schemas and Views you can use:
+```sql
+SELECT
+    table_schema AS "Schema",
+    table_name AS "Table/View",
+    table_type AS "Type"
+FROM
+    information_schema.tables
+WHERE
+    table_schema NOT IN ('pg_catalog', 'information_schema')
+ORDER BY
+    table_schema, table_name;
+```
+
 
 
 ## To test the Lambda function, pass a payload like:
